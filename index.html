@@ -6,33 +6,90 @@
     <script src="/socket.io/socket.io.js"></script>
     <style>
         body {
-            background-color: black;
-            color: aliceblue;
+            background: #FFEFBA;
+            background: -webkit-linear-gradient(to right, #FFFFFF, #FFEFBA);
+            background: linear-gradient(to right, #FFFFFF, #FFEFBA);
+            color: rgb(0, 0, 0);
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin: 20vh;
+            margin-top: 20vh;
 
         }
 
-        #message_list{
-            width: 95%;
-            border-width: 2px;
-            border-color: aliceblue;
+        #div-container-messages {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            width: 94.5%;
+            padding: 30px;
+            margin-left: 6px;
+            border-radius: 15px;
+            background-color:rgb(255, 249, 227);
+        }
+
+        #form-message-area {
+            background-color: rgb(189, 101, 2);
+            display: flex;
+            color: #FFFFFF;
+            justify-content: center;
+            align-items: center;
+            margin-left:38px ;
+            padding: 25px 0px;
+            width: 94.5%;
+            border-color: coral;
+            border-radius: 15px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        #input-text_area{
+            border-radius: 15px;
+            border: none;
+            padding: 15px;
+            width: 25%;
+            margin: 2vh;
+        }
+
+        img{
+            width: 300px;
+            height: 250px;
+
+        }
+
+        #input-file_area{
+            width: 200px;
+            height: 15px;
+            padding: 2vh 4vh;
+            background-color: rgb(250, 211, 105);
+            margin-right: 10vh;
+            border-radius: 15px;
+            color: black;
+            font-size: 12px;
+            margin-top: -2px;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+            border-color: #FFEFBA;
+            cursor: pointer;
+            border: none;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         }
 
         div {
             margin: 2%;
         }
 
-        .all_style{
+        .all_style {
             width: 30%;
             float: left;
-            background-color: white;
+            padding: 15px;
+            border-radius: 15px;
+            background-color: rgba(224, 116, 152, 0.774);
             color: black;
         }
 
-        .your_style{
+        .your_style {
             width: 30%;
+            padding: 15px;
+            border-radius: 15px ;
             float: right;
-            background-color: aquamarine;
-            color: black;   
+            background-color: rgb(255, 221, 127);
+            color: black;
         }
 
         .all_messages {
@@ -44,15 +101,27 @@
             display: flex;
             justify-content: end;
         }
+
+        .btn_send {
+            background-color: rgb(250, 211, 105);
+            padding: 2vh 6vh;
+            border-radius: 15px;
+            border-color: #FFEFBA;
+            cursor: pointer;
+            border: none;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+        }
+
+
     </style>
 </head>
 
 <body>
-    <div id="message_list"></div>
-    <form id="message_area" action="">
-        <input id="text_area" autocomplete="off" />
-        <input id="file_area" type="file">
-        <button>Send</button>
+    <div id="div-container-messages"></div>
+    <form id="form-message-area" action="">
+        <input id="input-text_area" autocomplete="off" />
+        <input id="input-file_area" type="file">
+        <button class="btn_send">Send</button>
     </form>
 
     <script>
@@ -61,9 +130,9 @@
         var username = window.prompt("Usuario:");
         socket.emit('new user', username);
 
-        const messageForm = document.getElementById('message_area');
-        const textInput = document.getElementById('text_area');
-        const fileInput = document.getElementById('file_area')
+        const messageForm = document.getElementById('form-message-area');
+        const textInput = document.getElementById('input-text_area');
+        const fileInput = document.getElementById('input-file_area')
 
         messageForm.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -121,7 +190,7 @@
         });
 
         socket.on('send message', (data) => {
-            const messageList = document.getElementById('message_list');
+            const messageList = document.getElementById('div-container-messages');
             const chatItem = document.createElement('div');
             const chatItem1 = document.createElement('div')
             var origin = data.user
@@ -141,7 +210,7 @@
 
         socket.on('send message private', (data) => {
             if (data.destiny === username || data.user == username) {
-                const messageList = document.getElementById('message_list');
+                const messageList = document.getElementById('div-container-messages');
                 const chatItem = document.createElement('div');
                 const chatItem1 = document.createElement('div')
                 var origin = data.user
@@ -161,18 +230,18 @@
         });
 
         socket.on("send file", (data) => {
-            const messageList = document.getElementById('message_list');
+            const messageList = document.getElementById('div-container-messages');
             const chatItem = document.createElement('div');
             const chatItem1 = document.createElement('div')
-                var origin = data.user
-                if (data.user === username) {
-                    origin = 'You';
-                    chatItem1.className += 'your_messages';
-                    chatItem.className += 'your_style';
-                } else {
-                    chatItem1.className += 'all_messages';
-                    chatItem.className += 'all_style';
-                }
+            var origin = data.user
+            if (data.user === username) {
+                origin = 'You';
+                chatItem1.className += 'your_messages';
+                chatItem.className += 'your_style';
+            } else {
+                chatItem1.className += 'all_messages';
+                chatItem.className += 'all_style';
+            }
             chatItem.textContent = origin + ': ' + data.message;
             chatItem.append(origin + ' : ' + data.message);
             var img = new Image();
@@ -185,18 +254,18 @@
         })
 
         socket.on('send file private', (data) => {
-            const messageList = document.getElementById('message_list');
+            const messageList = document.getElementById('div-container-messages');
             const chatItem = document.createElement('div');
             const chatItem1 = document.createElement('div')
-                var origin = data.user
-                if (data.user === username) {
-                    origin = 'You';
-                    chatItem1.className += 'your_messages';
-                    chatItem.className += 'your_style';
-                } else {
-                    chatItem1.className += 'all_messages';
-                    chatItem.className += 'all_style';
-                }
+            var origin = data.user
+            if (data.user === username) {
+                origin = 'You';
+                chatItem1.className += 'your_messages';
+                chatItem.className += 'your_style';
+            } else {
+                chatItem1.className += 'all_messages';
+                chatItem.className += 'all_style';
+            }
             chatItem.textContent = origin + ': ' + data.message;
             var img = new Image();
             img.src = data.file;
@@ -215,7 +284,7 @@
         })
 
         socket.on('send server message', (data) => {
-            const messageList = document.getElementById('message_list');
+            const messageList = document.getElementById('div-container-messages');
             const chatItem = document.createElement('p');
             chatItem.textContent = data.message;
             messageList.appendChild(chatItem);
