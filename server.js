@@ -22,7 +22,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Usuario desconectado - Usuario: ' + socket.username);
         Users = Users.filter((item) => item !== socket.username);
-        io.emit('send server message', { message: socket.username + " se ha ido" })
+        io.emit('send server message', { message: socket.username + " se ha desconectado" })
     });
 
     socket.on('new message', (msg) => {
@@ -45,10 +45,10 @@ io.on('connection', (socket) => {
         socket.username = usr;
         if (Users.includes(usr) != true) {
             console.log('Usuario conectado - Usuario: ' + socket.username);
-            io.emit('send server message', { message: socket.username + " se ha unido" })
+            io.emit('send server message', { message: socket.username + " esta en linea" })
             Users.push(socket.username)
         } else {
-            io.to(socket.id).emit('no register', {message: 'Usuario tomado, ingrese otro por favor'})
+            io.to(socket.id).emit('no register', {message: 'Este nombre esta ocupado, ingrese otro por favor'})
         }
     });
 });
