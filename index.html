@@ -12,8 +12,8 @@
             color: rgb(0, 0, 0);
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             margin: 20vh;
-            margin-top: 20vh;
-
+            margin-top: auto;
+            height: 0;
         }
 
         #div-container-messages {
@@ -23,6 +23,10 @@
             margin-left: 6px;
             border-radius: 15px;
             background-color:rgb(255, 249, 227);
+            height: 250px;
+            overflow-y: scroll;
+            
+            scroll-behavior: smooth;
         }
 
         #form-message-area {
@@ -41,16 +45,26 @@
 
         #input-text_area{
             border-radius: 15px;
-            border: none;
+            outline: none;
             padding: 15px;
             width: 25%;
             margin: 2vh;
+            border:none;
         }
 
         img{
             width: 300px;
             height: 250px;
+        }
 
+        .div-titulo{
+            background-color: pink;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 30px;
+            color: white;
         }
 
         #input-file_area{
@@ -59,14 +73,13 @@
             padding: 2vh 4vh;
             background-color: rgb(250, 211, 105);
             margin-right: 10vh;
-            border-radius: 15px;
             color: black;
             font-size: 12px;
             margin-top: -2px;
             box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
             border-color: #FFEFBA;
             cursor: pointer;
-            border: none;
+            border-radius: 15px;
             box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         }
 
@@ -112,11 +125,20 @@
             box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         }
 
+        .container{
+            height: 14px;
+        }
+
 
     </style>
 </head>
 
 <body>
+    <div class="div-titulo">
+        <h1>Mensajería</h1>
+    </div>
+    
+    
     <div id="div-container-messages"></div>
     <form id="form-message-area" action="">
         <input id="input-text_area" autocomplete="off" />
